@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>PRODUCT MANAGEMENT SYSTEM</title>
+</head>
+<body>
+    <!-- CRUDS -->
+     <div class="container">
+        <!-- head title -->
+        <div class="head">
+            <h1>PRODUCT MANAGEMENT SYSTEM (CRUDS)</h1>
+        </div>
+
+        <!-- inputs field -->
+        <div class="inputs">
+            <input type="text" id="title" placeholder="product title">
+            <div class="price">
+                <input onkeyup="getTotal()" type="number" id="price" placeholder="product price">
+                <input onkeyup="getTotal()" type ="number" id="taxes" placeholder="product taxes">
+                <input onkeyup="getTotal()" type="number" id="ads" placeholder="product ads">
+                <input onkeyup="getTotal()" type="number" id ="discount" placeholder="product discount">
+                <small id="total"></small>
+            </div>
+            <input type="number" id="count" placeholder="product count">
+            <input type="text" id ="category" placeholder="product category">
+            <button id="submit">create</button>
+        </div>
+
+
+        <!-- outputs field -->
+        <div class="output">
+            <div class="serchBlock">
+                <input onkeyup="searchData(this.value)" type="text" id="search" placeholder="search product">
+                <div class="btnsearch">
+                    <button onclick="getSearchMood(this.id)" id="searchTitle" class="active">search by title</button>
+                    <button onclick="getSearchMood(this.id)" id="searchCategory">search by category</button>
+                </div>
+
+            </div>
+            <!-- delete all button -->
+            <div id="deletAll">
+
+            </div>
+            <!-- table -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Title</th>
+                            <th>Price</th>
+                            <th>Taxes</th>
+                            <th>Ads</th>
+                            <th>Discount</th>
+                            <th>Total</th>
+                            <th>Category</th>
+                            <th>Update</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        <!-- shown by default; remove or replace via JS when there is data -->
+                        <!-- <tr id="emptyRow">
+                            <td colspan="10">
+                                Table Empty                                 
+                            </td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+     </div>
+    <script src="main.js" ></script>
+</body>
+</html>
