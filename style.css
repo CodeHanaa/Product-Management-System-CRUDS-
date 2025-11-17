@@ -157,7 +157,6 @@ th, td {
     border-bottom: 1px solid #ddd;
     /* خلي الخلايا متساوية ومترتبة */
     padding: 8px;
-     text-align: left;
     word-break: break-word;
     max-width: 150px;
     text-align: center;
@@ -174,3 +173,4 @@ table tbody #emptyRow {
     padding: 40px 10px;
     color: #444;
 }
+
