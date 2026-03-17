@@ -7,8 +7,7 @@
     <title>PRODUCT MANAGEMENT SYSTEM</title>
 </head>
 <body>
-    <!-- CRUDS -->
-     <div class="container">
+    <div class="container">
         <!-- head title -->
         <div class="head">
             <h1>PRODUCT MANAGEMENT SYSTEM (CRUDS)</h1>
@@ -19,31 +18,30 @@
             <input type="text" id="title" placeholder="product title">
             <div class="price">
                 <input onkeyup="getTotal()" type="number" id="price" placeholder="product price">
-                <input onkeyup="getTotal()" type ="number" id="taxes" placeholder="product taxes">
+                <input onkeyup="getTotal()" type="number" id="taxes" placeholder="product taxes">
                 <input onkeyup="getTotal()" type="number" id="ads" placeholder="product ads">
-                <input onkeyup="getTotal()" type="number" id ="discount" placeholder="product discount">
+                <input onkeyup="getTotal()" type="number" id="discount" placeholder="product discount">
                 <small id="total"></small>
             </div>
             <input type="number" id="count" placeholder="product count">
-            <input type="text" id ="category" placeholder="product category">
+            <input type="text" id="category" placeholder="product category">
             <button id="submit">create</button>
         </div>
-
 
         <!-- outputs field -->
         <div class="output">
             <div class="serchBlock">
-                <input onkeyup="searchData(this.value)" type="text" id="search" placeholder="search product">
+                <input type="text" id="search" placeholder="search product">
                 <div class="btnsearch">
                     <button onclick="getSearchMood(this.id)" id="searchTitle" class="active">search by title</button>
                     <button onclick="getSearchMood(this.id)" id="searchCategory">search by category</button>
+                    <button onclick="searchData(document.getElementById('search').value)">search</button>
                 </div>
-
             </div>
+
             <!-- delete all button -->
-            <div id="deletAll">
+            <div id="deletAll"></div>
 
-            </div>
             <!-- table -->
             <div class="table-container">
                 <table>
@@ -61,18 +59,11 @@
                             <th>Delete</th>
                         </tr>
                     </thead>
-                    <tbody id="tbody">
-                        <!-- shown by default; remove or replace via JS when there is data -->
-                        <!-- <tr id="emptyRow">
-                            <td colspan="10">
-                                Table Empty                                 
-                            </td>
-                        </tr> -->
-                    </tbody>
+                    <tbody id="tbody"></tbody>
                 </table>
             </div>
         </div>
      </div>
-    <script src="main.js" ></script>
+    <script src="main.js"></script>
 </body>
 </html>
