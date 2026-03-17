@@ -13,33 +13,10 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     padding: 0;
+    font-size: 16px;
 }
+* { box-sizing: border-box; }
 
-/* اجعل الصفحة كلها مرنة */
-* {
-  box-sizing: border-box;
-}
-
-/* الجزئية المهمة للموبايل */
-@media (max-width: 768px) {
-  .table-container {
-    width: 100%;
-    overflow-x: auto; /* يسمح بالتمرير الأفقي */
-    -webkit-overflow-scrolling: touch; /* سلاسة في الموبايل */
-  }
-
-  table {
-    min-width: 700px; /* بيضمن إن الجدول ما يتكسرش */
-    font-size: 13px;
-  }
-
-  input, button {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-}
-
-/* ===== Layout ===== */
 .container {
     width: 80%;
     margin: auto;
@@ -59,29 +36,22 @@ input {
     margin: 8px 0;
     border: none;
     outline: none;
-    box-sizing: border-box;
     background-color: var(--card-color);
     color: var(--text-color);
-    font-size: 16px;
 }
 
-input::placeholder {
-    color: var(--text-color);
-    opacity: 0.7;
-}
+input::placeholder { color: var(--text-color); opacity: 0.7; }
+input:focus { background-color: #ffeaea; color: var(--header-color); transform: scale(1.02); }
 
-input:focus {
-    background-color: #ffeaea;
-    color: var(--header-color);
-    transform: scale(1.02);
-}
-
-.price input {
-    width: 20%;
-}
+.price input { width: 20%; }
 
 /* ===== Total Box ===== */
 #total {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
     background-color: var(--header-color);
     color: #fff;
     cursor: pointer;
@@ -89,14 +59,8 @@ input:focus {
     border-radius: 4px;
 }
 
-#total:hover {
-    background-color: #b72a2b;
-}
-
-small::before {
-    content: 'Total 💰:';
-    margin-right: 8px;
-}
+#total:hover { background-color: #b72a2b; }
+small::before { content: 'Total 💰:'; }
 
 /* ===== Buttons ===== */
 button {
@@ -105,72 +69,45 @@ button {
     margin: 8px 0;
     border: none;
     outline: none;
-    box-sizing: border-box;
     background-color: var(--header-color);
     color: #fff;
-    font-size: 16px;
     cursor: pointer;
     text-transform: uppercase;
     border-radius: 20px;
     transition: all 0.3s ease;
 }
 
-button:hover {
-    background-color: #b72a2b;
-    letter-spacing: 1px;
-}
+button:hover { background-color: #b72a2b; letter-spacing: 1px; }
 
-.btnsearch {
-    display: flex;
-    justify-content: space-between;
-}
-
-.btnsearch button {
-    width: 49%;
-}
+/* زرار البحث */
+.btnsearch { display: flex; justify-content: space-between; gap: 5px; }
+.btnsearch button { flex: 1; }
 
 /* ===== Table ===== */
-.table-container {
-    width: 100%;
-    overflow-x: auto;
-}
-
+.table-container { width: 100%; overflow-x: auto; }
 table {
-    /* تأكد إن الجدول بياخد كل العرض */
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     border-radius: 8px;
-    overflow: hidden;
 }
 
-table thead th {
-    background-color: var(--header-color);
-    color: #fff;
-    padding: 12px;
-    text-transform: uppercase;
-}
+table thead th { background-color: var(--header-color); color: #fff; padding: 12px; text-transform: uppercase; }
+th, td { border-bottom: 1px solid #ddd; padding: 8px; word-break: break-word; max-width: 150px; text-align: center; }
 
-th, td {
-    border-bottom: 1px solid #ddd;
-    /* خلي الخلايا متساوية ومترتبة */
-    padding: 8px;
-    word-break: break-word;
-    max-width: 150px;
-    text-align: center;
-}
+table tbody #emptyRow { text-align: center; font-size: 1.5rem; font-weight: 700; padding: 40px 10px; color: #444; }
 
-table #tbody:hover {
-    background-color: #f1f1f1;
-}
+/* ===== أزرار Update/Delete ثابتة ومتغيرة حسب الشاشة ===== */
+#update, #delete { width: 100px; padding: 8px 12px; font-size: 14px; }
+@media (max-width: 1024px) { #update, #delete { width: 80px; font-size: 12px; padding: 6px 10px; } }
+@media (max-width: 768px) { #update, #delete { width: 60px; font-size: 11px; padding: 4px 8px; } }
 
-table tbody #emptyRow {
-    text-align: center;
-    font-size: 2.25rem;
-    font-weight: 700;
-    padding: 40px 10px;
-    color: #444;
-}
-
+/* ===== Responsive للصفحة ===== */
+@media (min-width: 1600px) { .container { width: 70%; } }
+@media (min-width: 1400px) and (max-width: 1599px) { .container { width: 75%; } }
+@media (max-width: 1024px) { .container { width: 90%; } }
+@media (max-width: 768px) { .container { width: 95%; font-size: 13px; } }
+@media (max-width: 576px) { .container { width: 100%; font-size: 12px; } }
+@media (max-width: 320px) { .container { width: 100%; font-size: 11px; } }
