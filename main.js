@@ -8,9 +8,8 @@ let count = document.getElementById('count');
 let category = document.getElementById('category');
 let submit = document.getElementById('submit');
 
-// create total function
 function getTotal() {
-    if (price.value != '') {
+    if(price.value != '') {
         let result = (+price.value + +taxes.value + +ads.value) - +discount.value;
         total.innerHTML = result;
         total.style.background = '#040';
@@ -20,47 +19,28 @@ function getTotal() {
     }
 }
 
-//create inputs
-//data product array 
-let dataPro;
-//check local storage 
-if (localStorage.product != null) {
-    //get data from local storage
-    dataPro = JSON.parse(localStorage.product);
-} else {
-    dataPro = [];
-}
+let dataPro = localStorage.product ? JSON.parse(localStorage.product) : [];
 
-//submit button 
 submit.onclick = function() {
     let newPro = {
         title: title.value.toLowerCase(),
-        price: price.value.toLowerCase(),
-        taxes: taxes.value.toLowerCase(),
-        ads: ads.value.toLowerCase(),
-        discount: discount.value.toLowerCase(),
+        price: price.value,
+        taxes: taxes.value,
+        ads: ads.value,
+        discount: discount.value,
         total: total.innerHTML,
-        count: count.value.toLowerCase(),
-        category: category.value.toLowerCase(),
+        count: count.value || 1,
+        category: category.value.toLowerCase()
+    };
+
+    if(title.value != '' && price.value != '' && category.value != '') {
+        dataPro.push(newPro);
+        localStorage.setItem('product', JSON.stringify(dataPro));
+        clearData();
+        readData();
     }
-     if (title.value != '' && price.value != '' && category.value != '' && newPro.count < 100) {
-        if (newPro.count > 1) {
-            for (let i = 0; i < newPro.count; i++) {  
-                dataPro.push(newPro);
-            } 
-        } else {
-            dataPro.push(newPro);
-            clearData();
-        }
-    }
-    //save to local storage
-    localStorage.setItem('product', JSON.stringify(dataPro));
-    // clearData();
-    readData();
 }
-        
-//save local storage
-//clear inputs
+
 function clearData() {
     title.value = '';
     price.value = '';
@@ -72,70 +52,51 @@ function clearData() {
     category.value = '';
 }
 
-//read products  
 function readData() {
-  getTotal();
+    getTotal();
+    const tbody = document.getElementById('tbody');
+    let table = '';
 
-  const tbody = document.getElementById('tbody');
-  let table = '';
-
-  // لو مفيش منتجات
-  if (dataPro.length === 0) {
-    table = `
-      <tr id="emptyRow">
-        <td colspan="10">Table Empty</td>
-      </tr>
-    `;
-  } else {
-    // لو فيه بيانات
-    for (let i = 0; i < dataPro.length; i++) {
-      table += `
-        <tr>
-          <td>${i + 1}</td>
-          <td>${dataPro[i].title}</td>
-          <td>${dataPro[i].price}</td>    
-          <td>${dataPro[i].taxes}</td>
-          <td>${dataPro[i].ads}</td>
-          <td>${dataPro[i].discount}</td>
-          <td>${dataPro[i].total}</td>
-          <td>${dataPro[i].category}</td>
-          <td><button id="update" onclick="updateData(${i})">update</button></td>
-          <td><button id="delete" onclick="deleteData(${i})">delete</button></td>
-        </tr>
-      `;
+    if(dataPro.length === 0){
+        table = `<tr id="emptyRow"><td colspan="10">Table Empty</td></tr>`;
+    } else {
+        dataPro.forEach((p, i) => {
+            table += `
+            <tr>
+              <td>${i+1}</td>
+              <td>${p.title}</td>
+              <td>${p.price}</td>
+              <td>${p.taxes}</td>
+              <td>${p.ads}</td>
+              <td>${p.discount}</td>
+              <td>${p.total}</td>
+              <td>${p.category}</td>
+              <td><button id="update" onclick="updateData(${i})">update</button></td>
+              <td><button id="delete" onclick="deleteData(${i})">delete</button></td>
+            </tr>`;
+        });
     }
 
-  }
-  if (dataPro.length > 0) {
-    document.getElementById('deletAll').innerHTML = `
-      <button onclick="deleteAll()">Delete All (${dataPro.length})</button>
-    `;
-  } else {
-    document.getElementById('deletAll').innerHTML = '';
-  }
+    document.getElementById('deletAll').innerHTML = dataPro.length > 0 ? 
+        `<button onclick="deleteAll()">Delete All (${dataPro.length})</button>` : '';
 
-  // نحدث محتوى الجدول
-  tbody.innerHTML = table;
+    tbody.innerHTML = table;
 }
 readData();
 
-//delete product
-function deleteData(i) {
-    dataPro.splice(i, 1);
-    //update local storage
-    localStorage.product = JSON.stringify(dataPro);
+function deleteData(i){
+    dataPro.splice(i,1);
+    localStorage.setItem('product', JSON.stringify(dataPro));
     readData();
 }
 
-//delete all products
-function deleteAll() {
+function deleteAll(){
     localStorage.clear();
-    dataPro.splice(0);
+    dataPro = [];
     readData();
 }
 
-//update product
-function updateData(i) {
+function updateData(i){
     title.value = dataPro[i].title;
     price.value = dataPro[i].price;
     taxes.value = dataPro[i].taxes;
@@ -144,13 +105,12 @@ function updateData(i) {
     getTotal();
     category.value = dataPro[i].category;
     count.style.display = 'none';
-    submit.innerHTML = 'update';    
+    submit.innerHTML = 'update';
     let tmp = i;
-    scroll({
-            top: 0,
-            behavior: "smooth",
-        });
-    submit.onclick = function() {
+
+    scroll({ top:0, behavior:"smooth" });
+
+    submit.onclick = function(){
         dataPro[tmp].title = title.value;
         dataPro[tmp].price = price.value;
         dataPro[tmp].taxes = taxes.value;
@@ -160,68 +120,45 @@ function updateData(i) {
         dataPro[tmp].category = category.value;
         count.style.display = 'block';
         submit.innerHTML = 'create';
-        localStorage.product = JSON.stringify(dataPro);
+        localStorage.setItem('product', JSON.stringify(dataPro));
         clearData();
         readData();
     }
 }
 
-//search product by title or category
 let searchMood = 'title';
-function getSearchMood(id) {
-    let search = document.getElementById('search'); 
-    if (id == 'searchTitle') {
-        searchMood = 'title';
-    } else {
-        searchMood = 'category';
-    }
+function getSearchMood(id){
+    searchMood = id === 'searchTitle' ? 'title' : 'category';
+    const search = document.getElementById('search');
     search.placeholder = 'Search By ' + searchMood;
     search.focus();
     search.value = '';
     readData();
 }
-function searchData(value) {
+
+function searchData(value){
     const tbody = document.getElementById('tbody');
     let table = '';
-    for (let i = 0; i < dataPro.length; i++) {
-        if (searchMood == 'title') {
-            if (dataPro[i].title.includes(value.toLowerCase())) {
-                table += `
-                  <tr>
-                    <td>${i + 1}</td>
-                    <td>${dataPro[i].title}</td>
-                    <td>${dataPro[i].price}</td>
-                    <td>${dataPro[i].taxes}</td>
-                    <td>${dataPro[i].ads}</td>
-                    <td>${dataPro[i].discount}</td>
-                    <td>${dataPro[i].total}</td>
-                    <td>${dataPro[i].category}</td>
-                    <td><button id="update" onclick="updateData(${i})">update</button></td>
-                    <td><button id="delete" onclick="deleteData(${i})">delete</button></td>
-                  </tr>
-                `;
-            }
-        } else {
-            if (dataPro[i].category.includes(value.toLowerCase())) {
-                table += `
-                  <tr>  
-                    <td>${i + 1}</td>   
-                    <td>${dataPro[i].title}</td>
-                    <td>${dataPro[i].price}</td>
-                    <td>${dataPro[i].taxes}</td>
-                    <td>${dataPro[i].ads}</td>
-                    <td>${dataPro[i].discount}</td>
-                    <td>${dataPro[i].total}</td>
-                    <td>${dataPro[i].category}</td>
-                    <td><button id="update" onclick="updateData(${i})">update</button></td>
-                    <td><button id="delete" onclick="deleteData(${i})">delete</button></td>
-                  </tr>
-                `;
-            }
-        }
+    let results = dataPro.filter(p => searchMood === 'title' ? p.title.includes(value.toLowerCase()) : p.category.includes(value.toLowerCase()));
+
+    if(results.length === 0){
+        table = `<tr><td colspan="10">لا توجد نتائج لبحثك</td></tr>`;
+    } else {
+        results.forEach((p, i)=>{
+            table += `
+            <tr>
+              <td>${i+1}</td>
+              <td>${p.title}</td>
+              <td>${p.price}</td>
+              <td>${p.taxes}</td>
+              <td>${p.ads}</td>
+              <td>${p.discount}</td>
+              <td>${p.total}</td>
+              <td>${p.category}</td>
+              <td><button id="update" onclick="updateData(${i})">update</button></td>
+              <td><button id="delete" onclick="deleteData(${i})">delete</button></td>
+            </tr>`;
+        });
     }
     tbody.innerHTML = table;
 }
-
-
-
