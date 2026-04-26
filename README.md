@@ -29,6 +29,6 @@ JavaScript (ES6) – Application logic and CRUD operations
 LocalStorage API – Data persistence
 
 #Live Demo:
-https://codehanaa.github.io/Product-Management-System-CRUDS-/
+https://product-management-system-cruds.vercel.app/
 
 
